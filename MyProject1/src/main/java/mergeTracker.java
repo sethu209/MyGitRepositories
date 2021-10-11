@@ -82,15 +82,16 @@ public static void findAffectedFiles(ArrayList<String> _baseFileNames , ArrayLis
 
 @SuppressWarnings("resource")
 public static void compareModifiedFiles( ArrayList<File> files){
-    boolean isContentSame = false;
 	for (File cFile : files) {
+
     if (skipDirectories(cFile)) {
+
       File bFile = findBasedFile(cFile, allBaseFiles);
       if (bFile != null && cFile != null) {
-		try {
-			isContentSame = FileUtils.contentEquals(cFile, bFile);
-		
-        if (isContentSame == false) {
+        	//System.out.println("---------"+cFile.getName());
+    	  try {
+	  boolean isContentSame = FileUtils.contentEquals(cFile, bFile);
+        if (!isContentSame) {
           modifiedFiles.add(cFile);
 
           BufferedReader br1 = null;
@@ -109,7 +110,6 @@ public static void compareModifiedFiles( ArrayList<File> files){
             list1.add(sCurrentLine);
           }
           sCurrentLine = null;
-          br1.close();
           sCurrentLine = br2.readLine();
           while (sCurrentLine != null) {
             sBuilder.append(sCurrentLine);
@@ -117,18 +117,9 @@ public static void compareModifiedFiles( ArrayList<File> files){
             sCurrentLine = br2.readLine();
             list2.add(sCurrentLine);
           }
-          br2.close();
           ArrayList<String> tmpList = new ArrayList<>(list2);
           tmpList.removeAll(list1);
-/*
-          System.out.println("content from Customized File which is not there in Base File-- Customized File--" +cFile);
-          if(tmpList.size() > 0 ) {
-        	  System.out.println(tmpList); 
-          }
 
-          tmpList = list2;
-          tmpList.removeAll(list1);
-          */
           System.out.println("Changes in File--" +bFile.getName());
 
           if(tmpList.size() > 0 )
@@ -147,10 +138,12 @@ try {
     for(File file : files) {
       String bFilePath = file.getAbsolutePath().replace("C:\\Users\\SethuLankala\\Downloads\\BillingCenter1001\\modules\\base\\base","");
       String cFilePath = name.getAbsolutePath().replace("C:\\Users\\SethuLankala\\Downloads\\BillingCenter1001\\modules\\configuration","");
-      if(skipDirectories(file) || file.getName()==name.getName() && bFilePath == cFilePath){
+
+
+      if(skipDirectories(file) && file.getName().equals(name.getName()) && bFilePath.equals(cFilePath)){
         cFile = file;
       }
-    }
+      	}
   } catch (Exception e) {
     e.printStackTrace();
   }
@@ -159,7 +152,8 @@ try {
 
 public static boolean skipDirectories(File file)  {
   return !(file.getAbsolutePath().contains("\\generated\\") || file.getAbsolutePath().contains("\\generated_classes\\")
-      || file.getAbsolutePath().contains("\\build\\") || file.getAbsolutePath().contains("\\plugins\\") || file.getAbsolutePath().contains("\\webSrc\\"));
+      || file.getAbsolutePath().contains("\\build\\") || file.getAbsolutePath().contains("\\plugins\\") || file.getAbsolutePath().contains("\\webSrc\\")
+      || file.getAbsolutePath().contains("modules\\configuration\\deploy\\resources\\css\\gen"));
  }
 
 public static void displayModifiedFiles(ArrayList<File> modifiedFiles2){
