@@ -13,18 +13,17 @@ import jxl.write.WritableImage;
 import java.util.Scanner;
 
 public class MergeTracker {
-	static String base1 = null;
-	static String base2 = null;
+	
 	public static void main(String[] args) {
 		
 		Scanner s1 = new Scanner(System.in);
 		System.out.println("Enter the Base directory :");
-        base1= s1.nextLine();
+        String base1= s1.nextLine();
 		File baseDirectory = new File(base1);
 		
 		Scanner s2 = new Scanner(System.in);
 		System.out.println("Enter the Cutomized directory :");
-        base2= s2.nextLine();
+		String base2= s2.nextLine();
 		File customizedDirectory  = new File(base2);
 
 		
@@ -83,6 +82,16 @@ public class MergeTracker {
         String base12= s12.nextLine();
 		File customizedSysData   = new File(base12);
 		
+		//Chop
+		Scanner s13 = new Scanner(System.in);
+		System.out.println("Enter the Chop Base System Data directory :");
+        MergeTrackerConstants.base13= s13.nextLine();
+		
+		Scanner s14 = new Scanner(System.in);
+		System.out.println("Enter the Chop Customized System Data directory :");
+		MergeTrackerConstants.base14= s14.nextLine();
+
+		
 
 		UtilityTracker.addBaseFiles(baseDirectory.listFiles());
 		UtilityTracker.addCustomizedFiles(customizedDirectory.listFiles());
@@ -107,7 +116,8 @@ public class MergeTracker {
 		DeltaTracker.findAffectedWFFiles(MergeTrackerConstants.baseFileWFNames, MergeTrackerConstants.customizedFileWFNames);
 		
 		//Solr Config
-		
+
+		UtilityTracker.addBaseFiles(baseSolr.listFiles());
 		UtilityTracker.addCustomizedFiles(customizedSolr.listFiles());
 		DeltaTracker.findAffectedSolrFiles(MergeTrackerConstants.baseFileSolrNames, MergeTrackerConstants.customizedFileSolrNames);
 		
@@ -163,7 +173,7 @@ public class MergeTracker {
 			 createExcelOtherXMLFiles(MergeTrackerConstants.allOtherXMLFiles, MergeTrackerConstants.addedOtherXMLFiles, MergeTrackerConstants.deletedOtherXMLFiles, MergeTrackerConstants.modifiedOtherXMLNameFiles, MergeTrackerConstants.allCustomizedOtherXMLFiles, wb);
 			 createExcelNonOtherXMLFiles(MergeTrackerConstants.allOtherNonXMLFiles, MergeTrackerConstants.addedOtherNonXMLFiles, MergeTrackerConstants.deletedOtherNonXMLFiles, MergeTrackerConstants.modifiedOtherNonXMLNameFiles, MergeTrackerConstants.allCustomizedOtherNonXMLFiles, wb);
 			 readExcelFile(wb);
-			 closeScanners(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12);
+			 closeScanners(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,9 +185,9 @@ public class MergeTracker {
 		try {
 			for (File file : files) {
 				String bFilePath = file.getAbsolutePath()
-						.replace("C:\\Users\\SethuLankala\\Downloads\\gw\\PolicyCenter1001\\modules\\base\\base", "");
+						.replace(MergeTrackerConstants.base13, "");
 				String cFilePath = name.getAbsolutePath()
-						.replace("C:\\Users\\SethuLankala\\Downloads\\gw\\PolicyCenter1001\\modules\\configuration", "");
+						.replace(MergeTrackerConstants.base14, "");
 				if (skipDirectories(file) && file.getName().equals(name.getName()) && bFilePath.equals(cFilePath)) {
 					cFile = file;
 				}
@@ -891,7 +901,7 @@ public static boolean checkFileNameExtension(String cFile) {
 			int notChangedRow = entityCount - (modifiedRow + deletedRow + addedRow);
 			ConformityData.createData(addedRow, modifiedRow, deletedRow, notChangedRow, Weight,modifiedFile,Weightage,true);
 	}
-	public static void closeScanners(Scanner s1,Scanner s2,Scanner s3,Scanner s4,Scanner s5,Scanner s6,Scanner s7,Scanner s8,Scanner s9,Scanner s10,Scanner s11,Scanner s12) {
+	public static void closeScanners(Scanner s1,Scanner s2,Scanner s3,Scanner s4,Scanner s5,Scanner s6,Scanner s7,Scanner s8,Scanner s9,Scanner s10,Scanner s11,Scanner s12,Scanner s13,Scanner s14) {
 		s1.close();
 		s2.close();
 		s3.close();
@@ -904,5 +914,8 @@ public static boolean checkFileNameExtension(String cFile) {
 		s10.close();
 		s11.close();
 		s12.close();
+		s13.close();
+		s14.close();
+
 	}
 }

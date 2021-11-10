@@ -13,6 +13,8 @@ public class MergeTrackerConstants {
 	static int totalAddedFiles = 0 ;
 	static int totalDeletedFiles = 0 ;
 	static int totalModifiedFiles = 0 ;
+	static String base13 = null;
+	static String base14 = null;
 
 	static ArrayList<File> allBaseFiles = new ArrayList<>();
 	static ArrayList<File> allCustomizedFiles = new ArrayList<>();
