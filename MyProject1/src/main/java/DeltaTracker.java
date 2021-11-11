@@ -181,7 +181,6 @@ public static void findAffectedOtherNonXMLFiles(ArrayList<String> _baseFileNames
 }		
 
 
-@SuppressWarnings("resource")
 public static void compareModifiedFiles(ArrayList<File> files, boolean productModelorNot,boolean sysTableorNot,boolean wfOrNot,
 			boolean solrorNot,boolean otherXMLorNot,boolean otherNonXMLorNot,boolean sysDataorNot) {
 		File bFile;
@@ -211,6 +210,7 @@ public static void compareModifiedFiles(ArrayList<File> files, boolean productMo
 							BufferedReader br1 = null;
 							BufferedReader br2 = null;
 							String sCurrentLine = null;
+							StringBuilder sBuilder = new StringBuilder();
 							ArrayList<String> list1 = new ArrayList<>();
 							ArrayList<String> list2 = new ArrayList<>();
 							br1 = new BufferedReader(new FileReader(bFile));

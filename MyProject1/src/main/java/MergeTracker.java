@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class MergeTracker {
 	
 	public static void main(String[] args) {
-		
+
 		Scanner s1 = new Scanner(System.in);
 		System.out.println("Enter the Base directory :");
         String base1= s1.nextLine();
