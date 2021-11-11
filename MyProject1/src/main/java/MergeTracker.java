@@ -27,69 +27,28 @@ public class MergeTracker {
 		File customizedDirectory  = new File(base2);
 
 		
-		//Product Model
-		Scanner s3 = new Scanner(System.in);
-		System.out.println("Enter the Base Product Model directory :");
-        String base3= s3.nextLine();
-		File baseProductModel  = new File(base3);
-
-		Scanner s4 = new Scanner(System.in);
-		System.out.println("Enter the Customized Product Model directory :");
-        String base4= s4.nextLine();
-		File customizedProductModel  = new File(base4);
+		File baseProductModel  = new File(base1+"\\config\\resources\\productmodel");
+		File customizedProductModel  = new File(base2+"\\config\\resources\\productmodel");
         
 		//System Tables
-		Scanner s5 = new Scanner(System.in);
-		System.out.println("Enter the Base System Table directory :");
-        String base5= s5.nextLine();
-		File baseSysTable  = new File(base5);
-
-		Scanner s6 = new Scanner(System.in);
-		System.out.println("Enter the Cutsomized System Table directory :");
-        String base6= s6.nextLine();
-		File customizedSysTable  = new File(base6);
+		File baseSysTable  = new File(base1+"\\config\\resources\\systables");
+		File customizedSysTable  = new File(base2+"\\config\\resources\\systables");
 		
 		//WF
-		Scanner s7 = new Scanner(System.in);
-		System.out.println("Enter the Base WF directory :");
-        String base7= s7.nextLine();
-		File baseWF = new File(base7);
-
-		Scanner s8 = new Scanner(System.in);
-		System.out.println("Enter the Customized WF directory :");
-        String base8= s8.nextLine();
-		File customizedWF  = new File(base8);
+		File baseWF = new File(base1+"\\config\\workflow");
+		File customizedWF  = new File(base2+"\\config\\workflow");
 
 		//Solar Configuration
-		Scanner s9 = new Scanner(System.in);
-		System.out.println("Enter the Base Solr Config directory :");
-        String base9= s9.nextLine();
-		File baseSolr  = new File(base9);
-
-		Scanner s10 = new Scanner(System.in);
-		System.out.println("Enter the Customized Solr Config directory :");
-        String base10= s10.nextLine();
-		File customizedSolr  = new File(base10);
+		File baseSolr  = new File(base1+"\\gsrc\\gw\\solr");
+		File customizedSolr  = new File(base2+"\\gsrc\\gw\\solr");
 		
 		//System Data Configuration
-		Scanner s11 = new Scanner(System.in);
-		System.out.println("Enter the Base System Data directory :");
-        String base11= s11.nextLine();
-		File baseSysData  = new File(base11);
+		File baseSysData  = new File(base1+"\\config\\import");
+		File customizedSysData   = new File(base2+"\\config\\import");
 		
-		Scanner s12 = new Scanner(System.in);
-		System.out.println("Enter the Customized System Data directory :");
-        String base12= s12.nextLine();
-		File customizedSysData   = new File(base12);
+		MergeTrackerConstants.base13= base1.replace("\\\\", "\\");
 		
-		//Chop
-		Scanner s13 = new Scanner(System.in);
-		System.out.println("Enter the Chop Base System Data directory :");
-        MergeTrackerConstants.base13= s13.nextLine();
-		
-		Scanner s14 = new Scanner(System.in);
-		System.out.println("Enter the Chop Customized System Data directory :");
-		MergeTrackerConstants.base14= s14.nextLine();
+		MergeTrackerConstants.base14= base2.replace("\\\\","\\");
 
 		
 
@@ -173,7 +132,7 @@ public class MergeTracker {
 			 createExcelOtherXMLFiles(MergeTrackerConstants.allOtherXMLFiles, MergeTrackerConstants.addedOtherXMLFiles, MergeTrackerConstants.deletedOtherXMLFiles, MergeTrackerConstants.modifiedOtherXMLNameFiles, MergeTrackerConstants.allCustomizedOtherXMLFiles, wb);
 			 createExcelNonOtherXMLFiles(MergeTrackerConstants.allOtherNonXMLFiles, MergeTrackerConstants.addedOtherNonXMLFiles, MergeTrackerConstants.deletedOtherNonXMLFiles, MergeTrackerConstants.modifiedOtherNonXMLNameFiles, MergeTrackerConstants.allCustomizedOtherNonXMLFiles, wb);
 			 readExcelFile(wb);
-			 closeScanners(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14);
+			 closeScanners(s1,s2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -901,21 +860,8 @@ public static boolean checkFileNameExtension(String cFile) {
 			int notChangedRow = entityCount - (modifiedRow + deletedRow + addedRow);
 			ConformityData.createData(addedRow, modifiedRow, deletedRow, notChangedRow, Weight,modifiedFile,Weightage,true);
 	}
-	public static void closeScanners(Scanner s1,Scanner s2,Scanner s3,Scanner s4,Scanner s5,Scanner s6,Scanner s7,Scanner s8,Scanner s9,Scanner s10,Scanner s11,Scanner s12,Scanner s13,Scanner s14) {
+	public static void closeScanners(Scanner s1,Scanner s2) {
 		s1.close();
 		s2.close();
-		s3.close();
-		s4.close();
-		s5.close();
-		s6.close();
-		s7.close();
-		s8.close();
-		s9.close();
-		s10.close();
-		s11.close();
-		s12.close();
-		s13.close();
-		s14.close();
-
 	}
 }
