@@ -139,7 +139,4 @@ public class MergeTrackerConstants {
 			static ArrayList<String> deletedOtherNonXMLFiles = new ArrayList<>();
 		
 			static ArrayList<String> allOtherNonXMLFiles = new ArrayList<>();
-	
-
-
 }

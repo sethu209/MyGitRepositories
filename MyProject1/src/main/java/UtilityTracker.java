@@ -2,7 +2,11 @@ import java.io.File;
 
 public class UtilityTracker{
 
-
+/* Recursive function to check whether the file is directory or not .
+ * If directory , will be a recursive call to list down files in side directory
+ * else, add the Base files to the respective arraylist as per the file types in line with conformity sheet
+ */
+	
 	public static void addBaseFiles(File[] files) {
 		for (File file : files) {
 			if (file.isDirectory()) {
@@ -39,6 +43,12 @@ public class UtilityTracker{
 	}
 }
 
+
+/* Recursive function to check whether the file is directory or not .
+ * If directory , will be a recursive call to list down files in side directory
+ * else, add the customized files to the respective arraylist as per the file types in line with conformity sheet
+ */
+	
 	public static void addCustomizedFiles(File[] files) {
 		for (File file : files) {
 			if (file.isDirectory()) {

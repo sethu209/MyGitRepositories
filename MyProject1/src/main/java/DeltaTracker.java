@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +10,10 @@ import org.apache.commons.io.FileUtils;
 
 public class DeltaTracker {
 
+	/* Find the Affected Files 
+	 * Added Files , Deleted Files and Modified Files and respective counts
+	 * input : Base file Names and Customized File Names
+	 */
 	public static void findAffectedFiles(ArrayList<String> _baseFileNames, ArrayList<String> _customizedFileNames) {
 
 		ArrayList<String> commonFiles = new ArrayList<>(_customizedFileNames);
@@ -25,6 +30,8 @@ public class DeltaTracker {
 				MergeTrackerConstants.allFiles.add(i);
 			}
 		}
+		
+		// Compare the same Base and Customized file to check the data inside teh file
 		compareModifiedFiles(MergeTrackerConstants.allCustomizedFiles,false,false,false,false,false,false,false);
 	}
 
@@ -180,6 +187,11 @@ public static void findAffectedOtherNonXMLFiles(ArrayList<String> _baseFileNames
 	compareModifiedFiles(MergeTrackerConstants.allCustomizedOtherNonXMLFiles, false,false,false,false,false,true,false);
 }		
 
+/*
+ * Find the respective base file of the current customized file and do the data comparison
+ * store the changed files to the respective Modified list array
+ * ChangedData - Captures the data changes and respective file
+ */
 
 public static void compareModifiedFiles(ArrayList<File> files, boolean productModelorNot,boolean sysTableorNot,boolean wfOrNot,
 			boolean solrorNot,boolean otherXMLorNot,boolean otherNonXMLorNot,boolean sysDataorNot) {
@@ -233,10 +245,13 @@ public static void compareModifiedFiles(ArrayList<File> files, boolean productMo
 									totalChanges.addAll(tmpList);
                                  tmpList = list2;
 					            tmpList.removeAll(list1);
-					          	if(tmpList != null && tmpList.size() > 0 && !(tmpList.contains("[ ]") || tmpList.contains("[]"))) {
+					         
+					            // To prevent the null array data from storing in to changed data set.
+					            if(tmpList != null && tmpList.size() > 0 && !(tmpList.contains("[ ]") || tmpList.contains("[]"))) {
 									MergeTrackerConstants.changedData.put(tmpList, cFile.getName());
 									}
-									totalChanges.addAll(tmpList);
+								
+					            totalChanges.addAll(tmpList);
 							if (totalChanges.size() > 0 && !cFile.getAbsolutePath().contains("\\config\\resources\\productmodel") 
 									&& !cFile.getAbsolutePath().contains("\\config\\resources\\systables") && !cFile.getAbsolutePath().contains("\\config\\workflow")
 									&& !cFile.getAbsolutePath().contains("\\gsrc\\gw\\solr") && !cFile.getAbsolutePath().contains("\\config\\import") && MergeTracker.checkFileExtension(cFile)) {
@@ -266,7 +281,7 @@ public static void compareModifiedFiles(ArrayList<File> files, boolean productMo
 							} else if (totalChanges.size() > 0 && cFile.getAbsolutePath().contains("\\config\\import") && !MergeTrackerConstants.modifiedSysDataFiles.contains(cFile) 
 									 && !MergeTrackerConstants.modifiedSysDataNameFiles.contains(cFile.getName())) {
 								MergeTrackerConstants.modifiedSysDataFiles.add(cFile);
-								MergeTrackerConstants.modifiedSysDataNameFiles.add(cFile.getName());
+							MergeTrackerConstants.modifiedSysDataNameFiles.add(cFile.getName());
 								MergeTrackerConstants.allSysDataFiles.add(cFile.getName());
 							}else if (totalChanges.size() > 0 && !cFile.getAbsolutePath().contains("\\config\\resources\\productmodel") 
 									&& !cFile.getAbsolutePath().contains("\\config\\resources\\systables") && !cFile.getAbsolutePath().contains("\\config\\workflow")

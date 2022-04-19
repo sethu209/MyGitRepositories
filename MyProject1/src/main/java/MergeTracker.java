@@ -16,6 +16,8 @@ public class MergeTracker {
 	
 	public static void main(String[] args) {
 
+		// Enter the Base and Custom directory of the Policy Center
+		
 		Scanner s1 = new Scanner(System.in);
 		System.out.println("Enter the Base directory :");
         String base1= s1.nextLine();
@@ -26,6 +28,7 @@ public class MergeTracker {
 		String base2= s2.nextLine();
 		File customizedDirectory  = new File(base2);
 
+		// Append Product Model, Sys Table, Work flow, Solr and Import directories 
 		
 		File baseProductModel  = new File(base1+"\\config\\resources\\productmodel");
 		File customizedProductModel  = new File(base2+"\\config\\resources\\productmodel");
@@ -50,10 +53,12 @@ public class MergeTracker {
 		
 		MergeTrackerConstants.base14= base2.replace("\\\\","\\");
 
-		
+		// Add the base or customized files to the respective list 
 
 		UtilityTracker.addBaseFiles(baseDirectory.listFiles());
 		UtilityTracker.addCustomizedFiles(customizedDirectory.listFiles());
+		
+		// Find the affected files(added, deleted or changed)
 		DeltaTracker.findAffectedFiles(MergeTrackerConstants.baseFileNames, MergeTrackerConstants.customizedFileNames);
 		
 		// product model changes
@@ -86,7 +91,7 @@ public class MergeTracker {
 		UtilityTracker.addCustomizedFiles(customizedSysData.listFiles());
 		DeltaTracker.findAffectedSysDataFiles(MergeTrackerConstants.baseFileSysDataNames, MergeTrackerConstants.customizedFileSysDataNames);
 
-		
+		//XML or Non XML files are stored already whilst adding the above files(addBaseFiles/addCustomizedFiles).
 		//Other XML Files
 		DeltaTracker.findAffectedOtherXMLFiles(MergeTrackerConstants.baseFileOtherXMLNames, MergeTrackerConstants.customizedFileOtherXMLNames);
 		
@@ -94,12 +99,19 @@ public class MergeTracker {
 		DeltaTracker.findAffectedOtherNonXMLFiles(MergeTrackerConstants.baseFileOtherNonXMLNames, MergeTrackerConstants.baseFileOtherNonXMLNames);
 		
 		try {
+			//Create a work book 
+			
 			WritableWorkbook wb = Workbook.createWorkbook(new File("C:\\Upgrade Tracker\\UpgradeTracker.xls"));
+			
+			//Display statistics total added, total deleted and total modified count
+			
 			displayStats(wb);
 			
-			 createExcelAddedFiles(MergeTrackerConstants.addedFiles, wb); createExcelDeletedFiles(MergeTrackerConstants.deletedFiles,
-			 wb); createExcelModifiedFiles(MergeTrackerConstants.modifiedFiles, wb);
-			 createExcelChangeDataFiles(MergeTrackerConstants.changedData, wb); createExcelEntityFiles(MergeTrackerConstants.allFiles,
+			 createExcelAddedFiles(MergeTrackerConstants.addedFiles, wb); 
+			 createExcelDeletedFiles(MergeTrackerConstants.deletedFiles,wb); 
+			 createExcelModifiedFiles(MergeTrackerConstants.modifiedFiles, wb);
+			 createExcelChangeDataFiles(MergeTrackerConstants.changedData, wb); 
+			 createExcelEntityFiles(MergeTrackerConstants.allFiles,
 					 MergeTrackerConstants.addedFiles, MergeTrackerConstants.deletedFiles, MergeTrackerConstants.modifiedNameFiles, MergeTrackerConstants.allCustomizedFiles, wb);
 			  createExcelGOSUFiles(MergeTrackerConstants.allFiles, MergeTrackerConstants.addedFiles, MergeTrackerConstants.deletedFiles, MergeTrackerConstants.modifiedNameFiles,
 					  MergeTrackerConstants.allCustomizedFiles, wb); createExcelGosuEnhancementFiles(MergeTrackerConstants.allFiles,
@@ -138,7 +150,9 @@ public class MergeTracker {
 			e.printStackTrace();
 		}
 	}
-
+	
+// Find the base file of the respective input : customized file
+	
 	public static File findBasedFile(File name, ArrayList<File> files) {
 		File cFile = null;
 		try {
@@ -172,7 +186,7 @@ public static void displayStats(WritableWorkbook wb) {
 		MergeTrackerConstants.totalDeletedFiles = (MergeTrackerConstants.deletedFiles.size()+MergeTrackerConstants.deletedSysTableFiles.size()+MergeTrackerConstants.deletedProductModelFiles.size()+MergeTrackerConstants.deletedOtherNonXMLFiles.size()+MergeTrackerConstants.deletedOtherXMLFiles.size()+MergeTrackerConstants.deletedSolrFiles.size()+MergeTrackerConstants.deletedSysTableFiles.size()+MergeTrackerConstants.deletedWFFiles.size());
 		MergeTrackerConstants.totalModifiedFiles = (MergeTrackerConstants.modifiedFiles.size()+MergeTrackerConstants.modifiedProductModelFiles.size()+MergeTrackerConstants.modifiedOtherNonXMLFiles.size()+MergeTrackerConstants.modifiedOtherXMLFiles.size()+MergeTrackerConstants.modifiedSolrFiles.size()+MergeTrackerConstants.modifiedSysTableFiles.size()+MergeTrackerConstants.modifiedWFFiles.size());
 		
-		addBALogo(modifiedFile);
+	//	addBALogo(modifiedFile);
 	}
 
 	public static void createExcelAddedFiles(ArrayList<String> addedFiles, WritableWorkbook wb) {
@@ -262,7 +276,7 @@ public static void displayStats(WritableWorkbook wb) {
 			}
 		}	
 
-		addBALogo(addedFile);
+		//addBALogo(addedFile);
 
 	}
 
@@ -354,7 +368,7 @@ public static void displayStats(WritableWorkbook wb) {
 				}
 
 
-		addBALogo(deletedFile);
+	//	addBALogo(deletedFile);
 	}
 
 	public static void createExcelModifiedFiles(ArrayList<File> modifiedFiles, WritableWorkbook wb) {
@@ -480,15 +494,16 @@ public static void displayStats(WritableWorkbook wb) {
 												e.printStackTrace();
 											}
 										}
-		addBALogo(modifiedFile);
+//		addBALogo(modifiedFile);
 	}
 
-	public static void addBALogo(WritableSheet wb) {
-		File logo = new File("C:\\Users\\SethuLankala\\Desktop\\Confirmity Tool Code\\BALogo.png");
-		WritableImage im = new WritableImage(15, 0, 4, 6, logo);
-		// im.setImageAnchor(WritableImage.NO_MOVE_OR_SIZE_WITH_CELLS);
-		(wb).addImage(im);
-	}
+	/*
+	 * public static void addBALogo(WritableSheet wb) { File logo = new
+	 * File("C:\\Users\\SethuLankala\\Desktop\\Confirmity Tool Code\\BALogo.png");
+	 * WritableImage im = new WritableImage(15, 0, 4, 6, logo); //
+	 * im.setImageAnchor(WritableImage.NO_MOVE_OR_SIZE_WITH_CELLS);
+	 * (wb).addImage(im); }
+	 */
 
 	public static void createExcelChangeDataFiles(Map<ArrayList<String>, String> changedFiles, WritableWorkbook wb) {
 		int i = 1;
@@ -524,12 +539,13 @@ public static void displayStats(WritableWorkbook wb) {
 				e.printStackTrace();
 			}
 		}
-		addBALogo(changedFile);
+	//	addBALogo(changedFile);
 		System.out.print("\nUpgrdae Tracker has been generated");
 	}
 
 //Entity files
 
+//Calculate the change percentage based on the inputs "extension" and "weightage"
 	public static void createExcelEntityFiles(ArrayList<String> modifiedFiles, ArrayList<String> addedFiles,
 			ArrayList<String> deletedFiles, ArrayList<String> modifiedFilesOnly, ArrayList<File> allCustomizedFiles,
 			WritableWorkbook wb) {
